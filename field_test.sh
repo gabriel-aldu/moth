@@ -10,7 +10,7 @@ sleep $AWAYTIME #Delay to get out of the way
 
 
 echo "Starting iperf3 client test..."
-iperf3 -c "$IP" -t "$TESTTIME" -R --timestamps=%H:%M:%S --logfile data_logs/"$FILENAME".log &
+iperf3 -c "$IP" -u -b 0 -t "$TESTTIME" --timestamps=%H:%M:%S --logfile data_logs/"$FILENAME".log &
 IPERF_PID=$! # Store the Process ID (PID) of the iperf3 test
 
 echo "Starting Python data logger..."
