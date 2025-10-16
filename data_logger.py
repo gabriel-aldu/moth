@@ -16,18 +16,21 @@ with open(logs_path, "x", newline='') as f:
     writer = csv.writer(f)
     writer.writerow(["timestamp", "rssi"])
 
-while True:
-    try:
-    	response = main("eth0", "AT+RSSI")
-    	# Parse RSSI value
-    	rssi_line = response.split("\n")[0]
-    	if rssi_line:
+rssi_data = []
+
+try:
+    while True:
+        response = main("eth0", "AT+RSSI")
+        rssi_line = response.split("\n")[0]
+        if rssi_line:
             rssi_value = rssi_line.split(":")[1].strip()
             timestamp = datetime.now().isoformat()
             print(f"{timestamp}: RSSI = {rssi_value}")
-            with open(csv_file, "a", newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow([timestamp, rssi_value])
+            rssi_data.append([timestamp, rssi_value])
         time.sleep(1)
-    except KeyboardInterrupt:
-	pass
+except (KeyboardInterrupt, Exception) as e:
+    print("Saving data before exit...")
+    with open(logs_path, "a", newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(rssi_data)
+    print("Data saved. Exiting.")
