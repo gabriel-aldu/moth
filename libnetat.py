@@ -193,7 +193,7 @@ def netlog(ifname):
     else:
         print("No devices found.")
 
-def main(ifname, command=None, dest_mac=None, config_file=None):
+def send_at_command(ifname, command=None, dest_mac=None, config_file=None):
     mgr = NetatMgr(ifname)
 
     if command == "netlog":
@@ -298,4 +298,4 @@ if __name__ == "__main__":
         command = sys.argv[2] if len(sys.argv) > 2 else None
         dest_mac = sys.argv[3] if len(sys.argv) > 3 else None
         config_file = sys.argv[4] if len(sys.argv) > 4 else None
-        main(ifname, command, dest_mac, config_file)
+        send_at_command(ifname, command, dest_mac, config_file)
