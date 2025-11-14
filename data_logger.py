@@ -35,7 +35,7 @@ def main(interface, filename, test_time):
                     print(f"{timestamp}: RSSI = {rssi_value}")
                     rssi_data.append([timestamp, rssi_value])
                     time.sleep(0.1)
-            if time.time() - init_time >= test_time:
+            if time.time() - init_time >= test_time + 5:
                 print("Saving data before exit...")
                 with open(logs_path, "a", newline='') as f:
                     writer = csv.writer(f)
