@@ -27,16 +27,14 @@ def main(interface, filename, test_time):
     try:
         while True:
             response = send_at_command(interface, "AT+RSSI")
-            if response is not None:
+            if response != None:
                 rssi_line = response.split("\n")[0]
                 if rssi_line:
-                    parts = rssi_line.split(":")
-                    if len(parts) > 1:
-                        rssi_value = parts[1].strip()
-                        timestamp = datetime.now().strftime("%H:%M:%S")
-                        print(f"{timestamp}: RSSI = {rssi_value}")
-                        rssi_data.append([timestamp, rssi_value])
-            time.sleep(0.1)
+                    rssi_value = rssi_line.split(":")[1].strip()
+                    timestamp = datetime.now().strftime("%H:%M:%S")
+                    print(f"{timestamp}: RSSI = {rssi_value}")
+                    rssi_data.append([timestamp, rssi_value])
+                    time.sleep(0.1)
             if time.time() - init_time >= test_time:
                 print("Saving data before exit...")
                 with open(logs_path, "a", newline='') as f:
